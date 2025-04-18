@@ -2,14 +2,15 @@ import { connectToDB } from "@/config/db";
 import { hashPassword } from "@/helpers/hash";
 import User from "@/models/userSchema";
 import { NextResponse } from "next/server";
+import { signJWT } from "@/helpers/jwt";
 
 export async function POST(req) {
     await connectToDB();
 
-    try{
+    try {
         const { name, email, password } = await req.json()
 
-        if(!name || !email || !password){
+        if (!name || !email || !password) {
             return NextResponse.json({
                 success: false,
                 data: null,
@@ -17,8 +18,8 @@ export async function POST(req) {
             }, { status: 403 })
         }
 
-        const doesUserExist = await User.findOne({email})
-        if(doesUserExist){
+        const doesUserExist = await User.findOne({ email })
+        if (doesUserExist) {
             return NextResponse.json({
                 success: false,
                 data: null,
@@ -33,15 +34,30 @@ export async function POST(req) {
             password: hashedPassword
         })
 
+        const token = signJWT({
+            id: user?._id,
+            email: user?.email
+        })
+
         const userObj = user.toObject();
         delete userObj.password
 
-        return NextResponse.json({
+        const response = NextResponse.json({
             success: true,
             data: userObj,
             message: 'user registered'
         }, { status: 201 })
-    }catch(e){
+
+        response.cookies.set("auth_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            path: '/',
+            maxAge: 7 * 24 * 60 * 60
+        })
+
+        return response;
+    } catch (e) {
         console.log("SignUp Error", e?.message)
         return NextResponse.json({
             success: false,

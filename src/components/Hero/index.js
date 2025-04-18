@@ -1,11 +1,32 @@
+"use client"
+import useAuthStatus from "@/lib/useAuthStatus";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import AuthDialog from "../AuthDialog";
 import Link from "next/link";
 
 export default function Hero() {
+    const { user, loading } = useAuthStatus()
+    const [open, setOpen] = useState(false)
+    const router = useRouter()
+
+    const handleNavigation = (e) => {
+        e.preventDefault()
+
+        if (user) {
+            router.push('/dashboard')
+        } else {
+            setOpen(true)
+        }
+    }
+
     return (
-        <div className="w-full max-w-[1200px] mx-auto">
+        <div className="w-full max-w-[1200px] mx-auto pb-10">
             <div className="w-16 px-2 py-4">
-                <span className="text-2xl text-cs-green font-semibold font-poppins">snap</span>
-                <span className="text-2xl text-cs-white font-light font-poppins">/short</span>
+                <Link href="/">
+                    <span className="text-2xl text-cs-green font-semibold font-poppins">snap</span>
+                    <span className="text-2xl text-cs-white font-light font-poppins">/short</span>
+                </Link>
             </div>
 
             <div className="flex flex-col items-center justify-center gap-5 px-2 py-14 pb-6">
@@ -15,9 +36,14 @@ export default function Hero() {
                     <p className="text-lg text-cs-gray font-poppins">Shorten and manage your links with ease.</p>
                     <p className="text-lg text-cs-gray font-poppins">Login to track clicks and view insights.</p>
                 </div>
-                <Link href="/" className="bg-cs-green px-6 py-3 rounded-3xl font-poppins mt-4 text-lg hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus:border-0 focus:outline-0">Get Started – It’s Free</Link>
-                <input className="Search"></input>
+                <span
+                    className="bg-cs-green px-6 py-3 rounded-3xl font-poppins mt-4 text-lg hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus: focus:outline-0"
+                    onClick={handleNavigation}
+                >
+                    Get Started – It’s Free
+                </span>
             </div>
+            <AuthDialog open={open} setOpen={setOpen} />
         </div>
     )
 }

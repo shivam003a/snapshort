@@ -2,6 +2,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import Loading from '@/app/loading'
+import { Toaster } from 'react-hot-toast';
+import { Providers } from "@/redux/providers";
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -20,8 +22,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${poppins.variable} antialiased`}
       >
+        <Toaster position="top-right" reverseOrder={false} />
         <Suspense fallback={<Loading />}>
-          {children}
+          <Providers>
+            {children}
+          </Providers>
         </Suspense>
       </body>
     </html>
