@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -12,12 +13,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import toast from "react-hot-toast"
+import Loading from "../Loading"
 
 export default function CreateNewUrl({ setIsNewAdded }) {
     const [longURL, setLongURL] = useState("")
     const [shortURL, setShortURL] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleNewUrl = async () => {
+        setLoading(true)
         try {
             const toastId = toast.loading("Fetching Url Info...")
             const response = await fetch(`/api/shorten`, {
@@ -46,22 +50,24 @@ export default function CreateNewUrl({ setIsNewAdded }) {
             toast.dismiss();
             toast.error("An unexpected error occurred.");
         }
+        setLoading(false)
     }
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-cs-green text-cs-blue-dark">Create New</Button>
+                <Button className="bg-cs-green text-cs-blue-dark font-poppins cursor-pointer hover:border-2 hover:border-cs-green hover:text-cs-green">Create New</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Add New Url</DialogTitle>
+                    <DialogTitle>Add New URL</DialogTitle>
+                    <DialogDescription className="font-poppins text-cs-gray">Easily shorten long URLs, track clicks, and share your custom links with ease</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="flex flex-col gap-2">
-                        <Label htmlFor="longURL" className="font-poppins text-cs-gray text-xs">
+                        <Label htmlFor="longURL" className="font-poppins text-cs-blue-dark text-xs">
                             Original URL
                         </Label>
-                        <Input id="longURL" value={longURL} className="col-span-3" onChange={(e) => setLongURL(e?.target?.value)} />
+                        <Input id="longURL" value={longURL} placeholder="Enter Original URL" className="col-span-3" onChange={(e) => setLongURL(e?.target?.value)} />
                     </div>
                     {
                         shortURL && <div className="flex flex-col gap-2">
@@ -73,7 +79,10 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                     }
                 </div>
                 <DialogFooter>
-                    <Button type="submit" onClick={handleNewUrl}>Create</Button>
+                    <Button type="submit" className="font-poppins bg-cs-green text-cs-blue-dark hover:border-2 hover:border-cs-green hover:bg-cs-white hover:text-cs-blue-dark" onClick={handleNewUrl}>
+                        Create
+                        {loading && <Loading />}
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

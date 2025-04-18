@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Link from "next/link"
 import URLInfo from "@/components/URLInfo"
 import PieChartInfo from "@/components/PieChartInfo"
-import { updateUser } from "@/redux/userSlice"
+import { logoutUser, updateUser } from "@/redux/userSlice"
 
 export default function Dashboard() {
     const { user } = useSelector((state) => state.user);
@@ -21,6 +21,7 @@ export default function Dashboard() {
     const [singleUrl, setSingleUrl] = useState(null)
     const [loading1, setLoading1] = useState(false)
     const [isNewAdded, setIsNewAdded] = useState(0)
+    const [logoutLoading, setLogoutLoading] = useState(false)
 
     useEffect(() => {
         const checkIsUserLogged = async () => {
@@ -123,6 +124,36 @@ export default function Dashboard() {
         fetchSingleUrlData()
     }, [selectedUrl])
 
+    const handleLogout = async () => {
+        setLogoutLoading(true)
+        try {
+            const response = await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Accept": "application/json"
+                },
+                credentials: 'include'
+            })
+            const data = await response.json()
+
+            if (response?.ok) {
+                dispatch(logoutUser())
+                router.push('/')
+                toast.success(data?.message)
+            } else {
+                dispatch(logoutUser())
+                router.push('/')
+                toast.error(data?.message)
+            }
+        } catch (e) {
+            dispatch(logoutUser())
+            router.push('/')
+            toast.error("Something went wrong")
+        }
+        setLogoutLoading(false)
+    }
+
     if (!user) {
         return (
             <Loading large={true} />
@@ -135,7 +166,7 @@ export default function Dashboard() {
                 loading ? (
                     <Loading large={true} />
                 ) : (
-                    <div className="bg-linear-to-t from-cs-blue-light to-cs-blue-dark h-screen overflow-hidden">
+                    <div className="bg-linear-to-t from-cs-blue-light to-cs-blue-dark overflow-hidden">
                         <div className="w-full h-screen max-w-[1200px] mx-auto pb-12">
                             <div className="h-16 px-2 py-4 flex justify-between">
                                 <div>
@@ -144,18 +175,18 @@ export default function Dashboard() {
                                         <span className="text-2xl text-cs-white font-light font-poppins">/short</span>
                                     </Link>
                                 </div>
-                                <div>
+                                <div className="flex gap-1">
                                     <CreateNewUrl setIsNewAdded={setIsNewAdded} />
-                                    <Button>Logout</Button>
+                                    <Button className="font-poppins bg-red-400 hover:bg-red-500 cursor-pointer" onClick={handleLogout}>Logout {logoutLoading && <Loading />}</Button>
                                 </div>
                             </div>
 
                             <div className="flex flex-row px-2 py-2 h-full">
-                                <div className="w-1/6 h-screen flex flex-col gap-2 overflow-x-hidden overflow-y-auto">
+                                <div className="w-1/6 h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto">
                                     {
                                         urls && urls?.length && urls.map((url, index) => (
                                             <span
-                                                className={`px-2 pl-4 py-4 rounded-l-3xl ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
+                                                className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
                                                 key={index}
                                                 onClick={() => setSelectedUrl(url?._id)}
                                             >
@@ -164,15 +195,9 @@ export default function Dashboard() {
                                         ))
                                     }
                                 </div>
-                                <div className="w-5/6 bg-cs-blue-dark p-2 gap-1 overflow-x-hidden overflow-y-auto flex flex-row">
-                                    {
-                                        loading1 ? (<Loading />) : (
-                                            <>
-                                                <PieChartInfo singleUrl={singleUrl} />
-                                                <URLInfo singleUrl={singleUrl} />
-                                            </>
-                                        )
-                                    }
+                                <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-row">
+                                    <PieChartInfo singleUrl={singleUrl} loading1={loading1} />
+                                    <URLInfo singleUrl={singleUrl} loading1={loading1} />
                                 </div>
                             </div>
                         </div>

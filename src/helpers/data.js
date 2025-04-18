@@ -1,16 +1,16 @@
 export const features = [
     {
-        image: "/icons/analytics.svg",
+        image: "/assets/analytics.jpg",
         title: "Real-Time Analytics",
         description: "Track every click with details like IP, device, browser, and time, offering a deeper understanding of your audience's behavior.",
     },
     {
-        image: "/icons/secure.svg",
+        image: "/assets/secure.jpg",
         title: "Secure & Private",
         description: "Your data is protected with strong security. No ads or tracking, just private, authenticated links that ensure your privacy.",
     },
     {
-        image: "/icons/custom-link.svg",
+        image: "/assets/custom-link.jpg",
         title: "Custom Short URLs",
         description: "Easily create memorable short links with custom aliases, making your URLs easier to share and recognize.",
     },

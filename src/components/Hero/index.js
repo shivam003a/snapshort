@@ -1,13 +1,15 @@
 "use client"
 import useAuthStatus from "@/lib/useAuthStatus";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AuthDialog from "../AuthDialog";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 export default function Hero() {
     const { user, loading } = useAuthStatus()
     const [open, setOpen] = useState(false)
+    const [weeklyLinks, setWeeklyLinks] = useState(0)
     const router = useRouter()
 
     const handleNavigation = (e) => {
@@ -20,6 +22,27 @@ export default function Hero() {
         }
     }
 
+    useEffect(() => {
+        const getWeeklyCreatedLinks = async () => {
+            try {
+                const response = await fetch('/api/weekly-links', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                const data = await response.json()
+                if (response?.ok) {
+                    setWeeklyLinks(data?.data)
+                }
+            } catch (e) {
+                toast.error("An unexpected error occurred.");
+            }
+        }
+
+        getWeeklyCreatedLinks()
+    }, [])
+
     return (
         <div className="w-full max-w-[1200px] mx-auto pb-10">
             <div className="w-16 px-2 py-4">
@@ -30,14 +53,14 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-col items-center justify-center gap-5 px-2 py-14 pb-6">
-                <p className="text-lg text-cs-green font-poppins">12 new links shortened this week!</p>
+                <p className="text-lg text-cs-green font-poppins">{weeklyLinks} new links shortened this week!</p>
                 <p className="text-7xl max-w-2/3 text-center font-bold text-cs-white font-poppins leading-24">Shrink Your Links Expand Your Reach</p>
                 <div className="flex flex-col items-center justify-center">
                     <p className="text-lg text-cs-gray font-poppins">Shorten and manage your links with ease.</p>
                     <p className="text-lg text-cs-gray font-poppins">Login to track clicks and view insights.</p>
                 </div>
                 <span
-                    className="bg-cs-green px-6 py-3 rounded-3xl font-poppins mt-4 text-lg hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus: focus:outline-0"
+                    className="bg-cs-green px-6 py-3 rounded-3xl font-poppins mt-4 text-lg cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus: focus:outline-0"
                     onClick={handleNavigation}
                 >
                     Get Started – It’s Free

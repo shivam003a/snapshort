@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
+    DialogDescription,
     DialogFooter,
     DialogHeader,
     DialogTitle,
@@ -66,20 +67,21 @@ export default function AuthDialog({ open, setOpen }) {
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="sm:max-w-[500px] bg-cs-white border-0">
+            <DialogContent className="sm:max-w-[450px] bg-cs-white border-0">
                 <DialogHeader>
                     <DialogTitle className="font-poppins">Access Your Account</DialogTitle>
+                    <DialogDescription className="font-poppins text-cs-gray">Log in or create a new account to manage your links, track clicks, and explore insights</DialogDescription>
                 </DialogHeader>
                 <div className="py-4 flex flex-col justify-center items-center">
                     <div className="w-full flex">
                         <span
-                            className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer ${authMethod === "signup" ? "bg-cs-blue-light text-cs-white" : ""}`}
+                            className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer rounded-t-lg ${authMethod === "signup" ? "bg-cs-blue-light text-cs-white" : ""}`}
                             onClick={() => setAuthMethod('signup')}
                         >
                             SignUp
                         </span>
                         <span
-                            className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer ${authMethod === "signin" ? "bg-cs-blue-light text-cs-white" : ""}`}
+                            className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer rounded-t-lg ${authMethod === "signin" ? "bg-cs-blue-light text-cs-white" : ""}`}
                             onClick={() => setAuthMethod('signin')}
                         >
                             SignIn
@@ -108,7 +110,7 @@ export default function AuthDialog({ open, setOpen }) {
                 <DialogFooter>
                     <Button
                         type="submit"
-                        className="bg-cs-green text-cs-blue-dark hover:bg-cs-green cursor-pointer"
+                        className="bg-cs-green text-cs-blue-dark cursor-pointer rounded-3xl font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-white"
                         onClick={handleAuth}
                     >
                         {authMethod === "signup" ? "Sign Up" : "Sign In"}
