@@ -14,7 +14,7 @@ export default function FAQs() {
             <div className="w-full flex flex-col gap-2 mt-4">
                 {
                     faqs && faqs?.length && faqs.map((faq, index) => (
-                        <Accordion type="single" collapsible className="bg-cs-blue-dark py-1 px-4 rounded-xl">
+                        <Accordion type="single" collapsible className="bg-cs-blue-dark py-1 px-4 rounded-xl" key={index}>
                             <AccordionItem value="item-1">
                                 <AccordionTrigger className="text-cs-white hover:no-underline cursor-pointer font-poppins">{faq?.question}</AccordionTrigger>
                                 <AccordionContent className="text-cs-gray font-poppins">
