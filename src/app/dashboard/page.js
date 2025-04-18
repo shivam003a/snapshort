@@ -5,18 +5,16 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
-import { useSelector } from "react-redux"
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useDispatch, useSelector } from "react-redux"
 import Link from "next/link"
 import URLInfo from "@/components/URLInfo"
 import PieChartInfo from "@/components/PieChartInfo"
-
-ChartJS.register(ArcElement, Tooltip, Legend);
-
+import { updateUser } from "@/redux/userSlice"
 
 export default function Dashboard() {
     const { user } = useSelector((state) => state.user);
     const router = useRouter()
+    const dispatch = useDispatch()
     const [urls, setUrls] = useState([])
     const [loading, setLoading] = useState(false)
     const [selectedUrl, setSelectedUrl] = useState('')
@@ -24,17 +22,34 @@ export default function Dashboard() {
     const [loading1, setLoading1] = useState(false)
     const [isNewAdded, setIsNewAdded] = useState(0)
 
-    // useEffect(() => {
-    //     if (!user) {
-    //         router.push('/')
-    //     }
-    // }, [user, router])
+    useEffect(() => {
+        const checkIsUserLogged = async () => {
+            try {
+                const response = await fetch('/api/auth/me', {
+                    method: "GET",
+                    headers: {
+                        "Accept": 'application/json',
+                        "Content-Type": 'application/json'
+                    },
+                    credentials: 'include'
+                })
+                const data = await response.json()
 
-    // if (!user) {
-    //     return (
-    //         <Loading large={true} />
-    //     );
-    // }
+                if (response?.ok) {
+                    dispatch(updateUser(data?.data))
+                } else {
+                    router.push('/')
+                    dispatch(updateUser(null))
+                }
+            } catch (e) {
+                router.push('/')
+                dispatch(updateUser(null))
+            }
+        }
+
+        checkIsUserLogged()
+    }, [router])
+
 
     useEffect(() => {
         const fetchUrl = async () => {
@@ -107,6 +122,12 @@ export default function Dashboard() {
 
         fetchSingleUrlData()
     }, [selectedUrl])
+
+    if (!user) {
+        return (
+            <Loading large={true} />
+        );
+    }
 
     return (
         <>

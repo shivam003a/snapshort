@@ -37,7 +37,7 @@ export default function useAuthStatus() {
         }
 
         checkIsUserLogged()
-    }, [])
+    }, [dispatch])
 
     return { user, loading }
 }

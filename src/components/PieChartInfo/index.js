@@ -1,7 +1,10 @@
 'use client'
 import { getBrowserChartData, getDeviceChartData, getOsChartData } from "@/helpers/clicksData"
 import { useEffect, useState } from "react"
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function PieChartInfo({ singleUrl }) {
     const [osPieData, setOsPieData] = useState({})
