@@ -20,7 +20,7 @@ export async function connectToDB(){
         console.log("Connected to MongoDB")
 
     }catch(e){
-        console.log(e?.message || "error connecting to db")
+        console.log(e || "error connecting to db")
         process.exit(1)
     }
 }
