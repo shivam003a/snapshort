@@ -24,93 +24,87 @@ export default function Dashboard() {
     const [loading1, setLoading1] = useState(false)
     const [isNewAdded, setIsNewAdded] = useState(0)
 
-    useEffect(() => {
-        if (!user) {
-            router.push('/')
-        }
-    }, [user, router])
+    // useEffect(() => {
+    //     if (!user) {
+    //         router.push('/')
+    //     }
+    // }, [user, router])
 
-    if (!user) {
-        return (
-            <Loading large={true} />
-        );
-    }
-
-    const fetchUrl = async () => {
-        setLoading(true)
-
-        if (!user) {
-            return;
-        }
-        try {
-            const toastId = toast.loading("Fetching Urls...")
-            const response = await fetch('/api/urls', {
-                method: "GET",
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": "application/json"
-                }
-            })
-            const data = await response.json()
-            toast.dismiss(toastId)
-
-            if (response?.ok) {
-                setUrls(data?.data)
-                setSelectedUrl(data?.data?.[0]?._id)
-                toast.success(data.message || "Success!");
-            } else {
-                setUrls([])
-                setSelectedUrl("")
-                toast.error(data.message || "Something went wrong");
-            }
-        } catch (e) {
-            toast.dismiss();
-            toast.error("An unexpected error occurred.");
-        }
-        setLoading(false)
-    }
-
-    const fetchSingleUrlData = async () => {
-        setLoading1(true)
-
-        if (!user) {
-            return;
-        }
-        if (!selectedUrl) {
-            return;
-        }
-        try {
-            const toastId = toast.loading("Fetching Url Info...")
-            const response = await fetch(`/api/urls/${selectedUrl}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": "application/json"
-                }
-            })
-            const data = await response.json()
-            toast.dismiss(toastId)
-            console.log(data?.data)
-
-            if (response?.ok) {
-                setSingleUrl(data?.data)
-                toast.success(data.message || "Success!");
-            } else {
-                setSingleUrl([])
-                toast.error(data.message || "Something went wrong");
-            }
-        } catch (e) {
-            toast.dismiss();
-            toast.error("An unexpected error occurred.");
-        }
-        setLoading1(false)
-    }
+    // if (!user) {
+    //     return (
+    //         <Loading large={true} />
+    //     );
+    // }
 
     useEffect(() => {
+        const fetchUrl = async () => {
+            setLoading(true)
+
+            try {
+                const toastId = toast.loading("Fetching Urls...")
+                const response = await fetch('/api/urls', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Accept": "application/json"
+                    }
+                })
+                const data = await response.json()
+                toast.dismiss(toastId)
+
+                if (response?.ok) {
+                    setUrls(data?.data)
+                    setSelectedUrl(data?.data?.[0]?._id)
+                    toast.success(data.message || "Success!");
+                } else {
+                    setUrls([])
+                    setSelectedUrl("")
+                    toast.error(data.message || "Something went wrong");
+                }
+            } catch (e) {
+                toast.dismiss();
+                toast.error("An unexpected error occurred.");
+            }
+            setLoading(false)
+        }
+
         fetchUrl()
     }, [isNewAdded])
 
     useEffect(() => {
+        const fetchSingleUrlData = async () => {
+            setLoading1(true)
+
+            if (!selectedUrl) {
+                return;
+            }
+            try {
+                const toastId = toast.loading("Fetching Url Info...")
+                const response = await fetch(`/api/urls/${selectedUrl}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Accept": "application/json"
+                    }
+                })
+                const data = await response.json()
+                toast.dismiss(toastId)
+                console.log(data?.data)
+
+                if (response?.ok) {
+                    setSingleUrl(data?.data)
+                    toast.success(data.message || "Success!");
+                } else {
+                    setSingleUrl([])
+                    toast.error(data.message || "Something went wrong");
+                }
+            } catch (e) {
+                toast.dismiss();
+                toast.error("An unexpected error occurred.");
+            }
+            setLoading1(false)
+        }
+
         fetchSingleUrlData()
     }, [selectedUrl])
 
