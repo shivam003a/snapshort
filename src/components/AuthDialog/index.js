@@ -49,7 +49,7 @@ export default function AuthDialog({ open, setOpen }) {
             toast.dismiss(toastId);
 
             if (response?.ok) {
-                toaszt.success(data.message || "Success!");
+                toast.success(data.message || "Success!");
                 dispatch(updateUser(data?.data))
                 router.push('/dashboard')
             } else {
