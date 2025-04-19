@@ -58,10 +58,6 @@ export default function Dashboard() {
         const fetchUrl = async () => {
             setLoading(true)
 
-            if (!user) {
-                return;
-            }
-
             try {
                 const toastId = toast.loading("Fetching Urls...")
                 const response = await fetch('/api/urls', {
@@ -91,7 +87,7 @@ export default function Dashboard() {
         }
 
         fetchUrl()
-    }, [isNewAdded, user])
+    }, [isNewAdded])
 
     useEffect(() => {
         const fetchSingleUrlData = async () => {

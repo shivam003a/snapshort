@@ -9,7 +9,7 @@ export default function Features() {
                 <span className="hidden md:block font-poopins text-lg text-cs-gray">Everything you need to manage, track, and share your links with confidence.</span>
             </div>
             <div className="border-r-1 border-cs-blue-light"></div>
-            <div className="flex-3/4 flex flex-col md:flex-row gap-12 px-8 relative">
+            <div className="flex-3/4 flex flex-col sm:flex-row gap-12 px-8 relative overflow-hidden">
                 {
                     features && features?.length > 0 && features.map((feature, index) => (
                         <FeatureCard key={index} feature={feature} index={index} />
