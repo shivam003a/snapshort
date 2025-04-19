@@ -46,3 +46,40 @@ export async function GET(req, { params }) {
         }, { status: 401 });
     }
 }
+
+export async function DELETE(req, { params }) {
+    const token = req.cookies.get('auth_token')?.value
+
+    if (!token) {
+        return NextResponse.json({
+            success: false,
+            data: null,
+            message: "unauthorized"
+        }, { status: 401 })
+    }
+
+    await connectToDB()
+
+    try {
+        const user = verifyJWT(token, process.env.JWT_SECRET)
+
+        const { urlId } = await params
+        const urlByUserId = await Url.findOneAndDelete({
+            _id: urlId,
+            userId: user?.id
+        })
+
+        return NextResponse.json({
+            success: true,
+            data: null,
+            message: "deleted successfully",
+        }, { status: 200 })
+
+    } catch (e) {
+        console.log(e)
+        return NextResponse.json({
+            success: false,
+            message: 'Invalid token'
+        }, { status: 401 });
+    }
+}

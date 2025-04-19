@@ -26,19 +26,38 @@ export default function PieChartInfo({ singleUrl, loading1 }) {
                     <Loading />
                 ) : (
                     <>
-                        <div className="flex">
-                            <span className="bg-cs-blue-dark text-cs-white p-1" onClick={() => setSelectedPieData("os")}>OS</span>
-                            <span className="bg-cs-blue-dark text-cs-white p-1" onClick={() => setSelectedPieData("browser")}>Browser</span>
-                            <span className="bg-cs-blue-dark text-cs-white p-1" onClick={() => setSelectedPieData("device")}>Device</span>
+                        <div className="flex justify-between items-center gap-2">
+                            <span className="font-poppins text-sm text-cs-blue-dark">
+                                {
+                                    selectedPieData === 'os'
+                                        ? 'Operating System Breakdown'
+                                        : selectedPieData === 'browser'
+                                            ? 'Browser Usage Distribution'
+                                            : 'Device Type Breakdown'
+                                }
+                            </span>
+                            <div className="flex justify-center items-center gap-2">
+                                <span className="font-poppins text-xs text-cs-blue-dark">Select View</span>
+                                <select
+                                    className="font-poppins border-1 border-cs-blue-dark text-xs py-0.25 px-0.5 focus:outline-0 cursor-pointer text-cs-blue-dark"
+                                    onChange={(e) => setSelectedPieData(e?.target?.value)}
+                                >
+                                    <option value="os">OS</option>
+                                    <option value="browser">Browser</option>
+                                    <option value="device">Device</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div className="w-full h-full">
+                        <div className="border-b-1 border-cs-gray w-full mt-2"></div>
+
+                        <div className="w-full h-full flex items-center justify-center p-5">
                             {
                                 browserPieData?.labels?.length > 0 ?
                                     <Pie
                                         data={selectedPieData === "os" ? osPieData : selectedPieData === "browser" ? browserPieData : devicePieData}
                                     /> : (
-                                        <span>No Analytics Available</span>
+                                        <span className="font-poppins text-lg">No Analytics Available</span>
                                     )
                             }
                         </div>

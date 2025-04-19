@@ -79,7 +79,7 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                     }
                 </div>
                 <DialogFooter>
-                    <Button type="submit" className="font-poppins bg-cs-green text-cs-blue-dark hover:border-2 hover:border-cs-green hover:bg-cs-white hover:text-cs-blue-dark" onClick={handleNewUrl}>
+                    <Button type="submit" className="font-poppins bg-cs-green text-cs-blue-dark cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-white hover:text-cs-blue-dark" onClick={handleNewUrl}>
                         Create
                         {loading && <Loading />}
                     </Button>

@@ -23,12 +23,6 @@ export async function GET(req, { params }) {
         const os = result.os.name || "Unknown";
 
         const urlDoc = await Url.findOne({ shortId });
-        // if (!urlDoc) {
-        //     return NextResponse.json({
-        //         success: false,
-        //         message: "url not found"
-        //     }, { status: 404 });
-        // }
 
         if (!urlDoc) {
             return new NextResponse(html, {
@@ -56,6 +50,6 @@ export async function GET(req, { params }) {
             success: false,
             data: null,
             message: 'internal server error'
-        }, { status: 401 })
+        }, { status: 500 })
     }
 }

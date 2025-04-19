@@ -10,6 +10,7 @@ import Link from "next/link"
 import URLInfo from "@/components/URLInfo"
 import PieChartInfo from "@/components/PieChartInfo"
 import { logoutUser, updateUser } from "@/redux/userSlice"
+import TimeBarData from "@/components/TimeBarData"
 
 export default function Dashboard() {
     const { user } = useSelector((state) => state.user);
@@ -56,6 +57,10 @@ export default function Dashboard() {
         const fetchUrl = async () => {
             setLoading(true)
 
+            if (!user) {
+                return;
+            }
+
             try {
                 const toastId = toast.loading("Fetching Urls...")
                 const response = await fetch('/api/urls', {
@@ -85,7 +90,7 @@ export default function Dashboard() {
         }
 
         fetchUrl()
-    }, [isNewAdded])
+    }, [isNewAdded, user])
 
     useEffect(() => {
         const fetchSingleUrlData = async () => {
@@ -180,26 +185,41 @@ export default function Dashboard() {
                                     <Button className="font-poppins bg-red-400 hover:bg-red-500 cursor-pointer" onClick={handleLogout}>Logout {logoutLoading && <Loading />}</Button>
                                 </div>
                             </div>
+                            {
+                                (urls && urls?.length > 0) ? (
 
-                            <div className="flex flex-row px-2 py-2 h-full">
-                                <div className="w-1/6 h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto">
-                                    {
-                                        urls && urls?.length && urls.map((url, index) => (
-                                            <span
-                                                className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
-                                                key={index}
-                                                onClick={() => setSelectedUrl(url?._id)}
-                                            >
-                                                {url?.originalUrl?.length > 22 ? url?.originalUrl.slice(0, 22) : url?.originalUrl}
-                                            </span>
-                                        ))
-                                    }
-                                </div>
-                                <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-row">
-                                    <PieChartInfo singleUrl={singleUrl} loading1={loading1} />
-                                    <URLInfo singleUrl={singleUrl} loading1={loading1} />
-                                </div>
-                            </div>
+
+                                    <div className="flex flex-row px-2 py-2 h-full">
+                                        <div className="w-1/6 h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto">
+                                            {
+                                                urls && urls?.length && urls.map((url, index) => (
+                                                    <span
+                                                        className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
+                                                        key={index}
+                                                        onClick={() => setSelectedUrl(url?._id)}
+                                                    >
+                                                        {url?.originalUrl?.length > 22 ? url?.originalUrl.slice(0, 22) : url?.originalUrl}
+                                                    </span>
+                                                ))
+                                            }
+                                        </div>
+                                        <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-col">
+                                            <div className="w-full bg-cs-blue-dark gap-1 flex flex-row">
+                                                <PieChartInfo singleUrl={singleUrl} loading1={loading1} />
+                                                <URLInfo singleUrl={singleUrl} loading1={loading1} setIsNewAdded={setIsNewAdded} />
+                                            </div>
+                                            <div>
+                                                <TimeBarData singleUrl={singleUrl} loading1={loading1} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="w-full h-full flex flex-col items-center justify-center">
+                                        <span className="text-cs-white px-2 text-2xl font-poppins">You haven’t created any URLs yet.</span>
+                                        <span className="text-cs-white px-2 text-2xl font-poppins"> Click the button above to get started!</span>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 )

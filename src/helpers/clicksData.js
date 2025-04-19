@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function getBrowserTypes(clicks) {
     const browserArray = clicks?.map((click) => {
         return click?.browser
@@ -113,4 +115,37 @@ export function getBrowserChartData(clicks) {
         ],
     };
     return pieData
+}
+
+export function getTodayVisitData(clicks) {
+    const today = moment().startOf("day");
+    const tomorrow = moment(today).add(1, "day");
+
+    const todayClicks = clicks.filter(click =>
+        moment(click.timestamp).isBetween(today, tomorrow)
+    );
+
+    const grouped = {};
+
+    todayClicks.forEach(click => {
+        const hour = moment(click.timestamp).format("HH:00");
+        grouped[hour] = (grouped[hour] || 0) + 1;
+    });
+
+    const labels = Array.from({ length: 24 }, (_, i) =>
+        String(i).padStart(2, "0") + ":00"
+    );
+
+    const data = labels.map(label => grouped[label] || 0);
+
+    return {
+        labels,
+        datasets: [
+            {
+                label: "Visits Today by Hour",
+                data,
+                backgroundColor: "#10B981",
+            },
+        ],
+    };
 }
