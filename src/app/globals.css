@@ -114,6 +114,11 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --cs-blue-light: #fbf8ef;
+    --cs-blue-dark: #fbf8ef;
+    --cs-green: #1b7c4f;
+    --cs-white: #101010;
+    --cs-gray: #5a5a5a;
   }
 } */
 
