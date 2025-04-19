@@ -26,15 +26,17 @@ export default function TimeBarData({ singleUrl, loading1 }) {
 
     return (
         <div className="mb-4">
-            {loading1 ? (<Loading />) : (
-                timeData && (
-                    <div className="bg-white shadow-lg w-full h-full rounded-lg p-2 flex flex-col gap-3">
+            <div className="bg-white shadow-lg w-full h-full rounded-lg p-2 flex flex-col gap-3">
+                {loading1 ? (
+                    <Loading />
+                ) : (
+                    <>
                         <h3 className="font-poppins text-sm text-cs-blue-dark">Visits Today</h3>
                         <div className="border-b-1 border-cs-gray w-full -mt-0.75"></div>
                         <Bar data={timeData} />
-                    </div>
-                )
-            )}
+                    </>
+                )}
+            </div>
         </div>
     )
 }
