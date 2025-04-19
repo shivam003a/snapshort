@@ -60,7 +60,7 @@ export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
     }
 
     return (
-        <div className="w-1/2 flex flex-col gap-1">
+        <div className="w-full md:w-1/2 flex flex-col gap-1">
             <Link
                 href={`${process.env.NEXT_PUBLIC_BASE_URL}/${singleUrl?.shortId}`}
                 target="_blank"

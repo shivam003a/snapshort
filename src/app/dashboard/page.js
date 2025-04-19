@@ -204,7 +204,7 @@ export default function Dashboard() {
                                             }
                                         </div>
                                         <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-col scrollable">
-                                            <div className="w-full bg-cs-blue-dark gap-1 flex flex-row">
+                                            <div className="w-full bg-cs-blue-dark gap-1 flex flex-col-reverse md:flex-row">
                                                 <PieChartInfo singleUrl={singleUrl} loading1={loading1} />
                                                 <URLInfo singleUrl={singleUrl} loading1={loading1} setIsNewAdded={setIsNewAdded} />
                                             </div>

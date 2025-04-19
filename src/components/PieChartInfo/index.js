@@ -20,7 +20,7 @@ export default function PieChartInfo({ singleUrl, loading1 }) {
     }, [singleUrl])
 
     return (
-        <div className="w-1/2 overflow-hidden bg-white shadow-lg rounded-lg p-2">
+        <div className="w-full md:w-1/2 overflow-hidden bg-white shadow-lg rounded-lg p-2">
             {
                 loading1 ? (
                     <Loading />
