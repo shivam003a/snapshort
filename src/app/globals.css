@@ -92,6 +92,20 @@
   --font-poppins: Poppins, sans-serif;
 }
 
+/* Scrollbar styling */
+.scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: var(--cs-blue-dark);
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--cs-green);
+  border-radius: 10px;
+}
+
 * {
   box-sizing: border-box !important;
 }

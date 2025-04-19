@@ -190,7 +190,7 @@ export default function Dashboard() {
 
 
                                     <div className="flex flex-row px-2 py-2 h-full">
-                                        <div className="w-1/6 h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto">
+                                        <div className="w-1/6 h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto scrollable">
                                             {
                                                 urls && urls?.length && urls.map((url, index) => (
                                                     <span
@@ -203,7 +203,7 @@ export default function Dashboard() {
                                                 ))
                                             }
                                         </div>
-                                        <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-col">
+                                        <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-col scrollable">
                                             <div className="w-full bg-cs-blue-dark gap-1 flex flex-row">
                                                 <PieChartInfo singleUrl={singleUrl} loading1={loading1} />
                                                 <URLInfo singleUrl={singleUrl} loading1={loading1} setIsNewAdded={setIsNewAdded} />
