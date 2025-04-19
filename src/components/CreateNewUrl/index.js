@@ -14,15 +14,23 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import toast from "react-hot-toast"
 import Loading from "../Loading"
+import { urlSchema } from "@/helpers/zodValidation"
+import { z } from 'zod'
 
 export default function CreateNewUrl({ setIsNewAdded }) {
     const [longURL, setLongURL] = useState("")
     const [shortURL, setShortURL] = useState("")
     const [loading, setLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState({})
 
     const handleNewUrl = async () => {
         setLoading(true)
         try {
+            urlSchema.parse({
+                link: longURL
+            })
+            setErrorMsg({})
+
             const toastId = toast.loading("Fetching Url Info...")
             const response = await fetch(`/api/shorten`, {
                 method: "POST",
@@ -47,8 +55,19 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                 toast.error(data.message || "Something went wrong");
             }
         } catch (e) {
+            if (e instanceof z.ZodError) {
+                const errorMessage = {}
+                e?.errors?.forEach(err => {
+                    const field = err.path[0];
+                    errorMessage[field] = err?.message
+                })
+                console.log(e.errors)
+                setErrorMsg(errorMessage)
+            }
+            else {
+                toast.error("An unexpected error occurred.");
+            }
             toast.dismiss();
-            toast.error("An unexpected error occurred.");
         }
         setLoading(false)
     }
@@ -68,6 +87,7 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                             Original URL
                         </Label>
                         <Input id="longURL" value={longURL} placeholder="Enter Original URL" className="col-span-3" onChange={(e) => setLongURL(e?.target?.value)} />
+                        {errorMsg?.link && <span className="text-xs text-red-500">{errorMsg?.link}</span>}
                     </div>
                     {
                         shortURL && <div className="flex flex-col gap-2">

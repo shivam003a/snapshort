@@ -1,10 +1,10 @@
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export default function SignIn({ email, setEmail, password, setPassword }) {
+export default function SignIn({ email, setEmail, password, setPassword, errorMsg }) {
     return (
         <div className="w-full px-3 py-6 pb-10 bg-cs-blue-light flex flex-col gap-4 -mt-1 rounded-lg">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.25">
                 <Label className="font-poppins text-cs-white text-xs font-extralight">E-Mail</Label>
                 <Input
                     placeholder="Enter E-mail"
@@ -13,8 +13,9 @@ export default function SignIn({ email, setEmail, password, setPassword }) {
                     onChange={(e) => setEmail(e?.target?.value)}
                 >
                 </Input>
+                {errorMsg?.email && <span className="text-xs text-red-500">{errorMsg?.email}</span>}
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.25">
                 <Label className="font-poppins text-cs-white text-xs font-extralight">Password</Label>
                 <Input
                     placeholder="Enter Password"
@@ -23,6 +24,7 @@ export default function SignIn({ email, setEmail, password, setPassword }) {
                     onChange={(e) => setPassword(e?.target?.value)}
                 >
                 </Input>
+                {errorMsg?.password && <span className="text-xs text-red-500">{errorMsg?.password}</span>}
             </div>
         </div>
     )

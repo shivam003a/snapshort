@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import Loading from "@/components/Loading"
 import { useDispatch } from "react-redux"
 import { updateUser } from "@/redux/userSlice"
+import { signinShcema, signupShcema } from "@/helpers/zodValidation"
+import { z } from "zod"
 
 export default function AuthDialog({ open, setOpen }) {
     const [authMethod, setAuthMethod] = useState("signup")
@@ -23,6 +25,7 @@ export default function AuthDialog({ open, setOpen }) {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [errorMsg, setErrorMsg] = useState({})
 
     const router = useRouter()
     const dispatch = useDispatch()
@@ -32,13 +35,20 @@ export default function AuthDialog({ open, setOpen }) {
 
         const pathToAcess = authMethod === 'signup' ? '/api/auth/register' : '/api/auth/login'
         try {
+            authMethod === 'signup' ? (
+                signupShcema.parse({ name, email, password })
+            ) : (
+                signinShcema.parse({ email, password })
+            )
+            setErrorMsg({})
+
             setLoading(true)
             const toastId = toast.loading(`${authMethod === 'signup' ? 'Signing up' : 'Signing in'}...`)
             const response = await fetch(pathToAcess, {
                 method: 'POST',
                 headers: {
                     "Content-Type": 'application/json',
-                    "Aceept": 'application/json'
+                    "Accept": 'application/json'
                 },
                 body: JSON.stringify({
                     name,
@@ -58,15 +68,28 @@ export default function AuthDialog({ open, setOpen }) {
                 dispatch(updateUser(null))
             }
         } catch (e) {
-            dispatch(updateUser(null))
+            if (e instanceof z.ZodError) {
+                const errorMessage = {}
+                e?.errors?.forEach(err => {
+                    const field = err.path[0];
+                    errorMessage[field] = err?.message
+                })
+                setErrorMsg(errorMessage)
+            }
+            else {
+                dispatch(updateUser(null))
+                toast.error("An unexpected error occurred.");
+            }
             toast.dismiss();
-            toast.error("An unexpected error occurred.");
         }
         setLoading(false)
     }
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={() => {
+            setOpen(false)
+            setErrorMsg({})
+        }}>
             <DialogContent className="sm:max-w-[450px] bg-cs-white border-0">
                 <DialogHeader>
                     <DialogTitle className="font-poppins">Access Your Account</DialogTitle>
@@ -96,6 +119,7 @@ export default function AuthDialog({ open, setOpen }) {
                                 setEmail={setEmail}
                                 password={password}
                                 setPassword={setPassword}
+                                errorMsg={errorMsg}
                             />
                         ) : (
                             <SignIn
@@ -103,6 +127,7 @@ export default function AuthDialog({ open, setOpen }) {
                                 setEmail={setEmail}
                                 password={password}
                                 setPassword={setPassword}
+                                errorMsg={errorMsg}
                             />
                         )
                     }
