@@ -6,6 +6,13 @@ import { UAParser } from "ua-parser-js";
 import { html } from "@/helpers/invalidLinkHtml";
 
 export async function GET(req, { params }) {
+    const isRSC = req.nextUrl.searchParams.has('_rsc') || req.headers.get('user-agent')?.includes('ReactServer');
+    if (isRSC) {
+        return new NextResponse(null, {
+            status: 204
+        })
+    }
+
     await connectToDB()
 
     try {
