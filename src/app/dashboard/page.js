@@ -11,6 +11,7 @@ import URLInfo from "@/components/URLInfo"
 import PieChartInfo from "@/components/PieChartInfo"
 import { logoutUser, updateUser } from "@/redux/userSlice"
 import TimeBarData from "@/components/TimeBarData"
+import Image from "next/image"
 
 export default function Dashboard() {
     const { user } = useSelector((state) => state.user);
@@ -159,6 +160,11 @@ export default function Dashboard() {
         setLogoutLoading(false)
     }
 
+    const handleError = (e) => {
+        e.target.src = '/assets/fallback.png'
+        e.target.srcset = '/assets/fallback.png'
+    };
+
     if (!user) {
         return (
             <Loading large={true} />
@@ -190,20 +196,29 @@ export default function Dashboard() {
 
 
                                     <div className="flex flex-row px-2 py-2 h-full">
-                                        <div className="w-1/6 h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto scrollable">
+                                        <div className="w-fit h-[calc(100vh-72px)] flex flex-col gap-2 overflow-x-hidden overflow-y-auto scrollable">
                                             {
                                                 urls && urls?.length && urls.map((url, index) => (
                                                     <span
-                                                        className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
+                                                        className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer flex gap-2 ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
                                                         key={index}
                                                         onClick={() => setSelectedUrl(url?._id)}
                                                     >
-                                                        {url?.originalUrl?.length > 22 ? url?.originalUrl.slice(0, 22) : url?.originalUrl}
+                                                        <Image
+                                                            src={`https://www.google.com/s2/favicons?sz=32&domain_url=${url?.originalUrl}`}
+                                                            width={18}
+                                                            height={18}
+                                                            alt="url favicon"
+                                                            className="object-contain"
+                                                            onError={handleError}
+                                                        >
+                                                        </Image>
+                                                        <span className="font-poppins text-xs hidden md:block">{url?.originalUrl?.length > 23 ? url?.originalUrl.slice(0, 23) : url?.originalUrl}</span>
                                                     </span>
                                                 ))
                                             }
                                         </div>
-                                        <div className="w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-col scrollable">
+                                        <div className="w-full md:w-5/6 min-h-[calc(100vh-72px)] bg-cs-blue-dark px-2 gap-1 overflow-x-hidden overflow-y-scroll flex flex-col scrollable">
                                             <div className="w-full bg-cs-blue-dark gap-1 flex flex-col-reverse md:flex-row">
                                                 <PieChartInfo singleUrl={singleUrl} loading1={loading1} />
                                                 <URLInfo singleUrl={singleUrl} loading1={loading1} setIsNewAdded={setIsNewAdded} />
