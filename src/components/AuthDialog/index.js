@@ -20,7 +20,7 @@ import { signinShcema, signupShcema } from "@/helpers/zodValidation"
 import { z } from "zod"
 
 export default function AuthDialog({ open, setOpen }) {
-    const [authMethod, setAuthMethod] = useState("signup")
+    const [authMethod, setAuthMethod] = useState("signin")
     const [loading, setLoading] = useState(false)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -85,6 +85,11 @@ export default function AuthDialog({ open, setOpen }) {
         setLoading(false)
     }
 
+    const getSampleCredential = () => {
+        setEmail('sample@mail.com')
+        setPassword("Qwerty@123")
+    }
+
     return (
         <Dialog open={open} onOpenChange={() => {
             setOpen(false)
@@ -98,16 +103,16 @@ export default function AuthDialog({ open, setOpen }) {
                 <div className="py-4 flex flex-col justify-center items-center">
                     <div className="w-full flex">
                         <span
-                            className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer rounded-t-lg ${authMethod === "signup" ? "bg-cs-blue-light text-cs-white" : ""}`}
-                            onClick={() => setAuthMethod('signup')}
-                        >
-                            SignUp
-                        </span>
-                        <span
                             className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer rounded-t-lg ${authMethod === "signin" ? "bg-cs-blue-light text-cs-white" : ""}`}
                             onClick={() => setAuthMethod('signin')}
                         >
                             SignIn
+                        </span>
+                        <span
+                            className={`text-center px-4 py-2 font-poppins text-sm cursor-pointer rounded-t-lg ${authMethod === "signup" ? "bg-cs-blue-light text-cs-white" : ""}`}
+                            onClick={() => setAuthMethod('signup')}
+                        >
+                            SignUp
                         </span>
                     </div>
                     {
@@ -133,6 +138,12 @@ export default function AuthDialog({ open, setOpen }) {
                     }
                 </div>
                 <DialogFooter>
+                    <Button
+                        className="bg-cs-blue-dark text-cs-green cursor-pointer rounded-3xl font-poppins hover:bg-cs-blue-light"
+                        onClick={getSampleCredential}
+                    >
+                        Get Sample Credential
+                    </Button>
                     <Button
                         type="submit"
                         className="bg-cs-green text-cs-blue-dark cursor-pointer rounded-3xl font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-white"

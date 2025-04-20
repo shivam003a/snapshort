@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label"
 
 export default function SignIn({ email, setEmail, password, setPassword, errorMsg }) {
     return (
-        <div className="w-full px-3 py-6 pb-10 bg-cs-blue-light flex flex-col gap-4 -mt-1 rounded-lg">
+        <div className="w-full px-3 py-6 pb-10 bg-cs-blue-light flex flex-col gap-4 -mt-1 rounded-lg rounded-tl-none">
             <div className="flex flex-col gap-1.25">
                 <Label className="font-poppins text-cs-white text-xs font-extralight">E-Mail</Label>
                 <Input
