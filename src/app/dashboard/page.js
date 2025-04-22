@@ -12,6 +12,7 @@ import PieChartInfo from "@/components/PieChartInfo"
 import { logoutUser, updateUser } from "@/redux/userSlice"
 import TimeBarData from "@/components/TimeBarData"
 import Image from "next/image"
+import Head from "next/head"
 
 export default function Dashboard() {
     const { user } = useSelector((state) => state.user);
@@ -169,6 +170,21 @@ export default function Dashboard() {
 
     return (
         <>
+            <Head>
+                <title>Dashboard — Manage Your Links | SnapShort</title>
+                <meta name="description" content="Access your custom dashboard to manage, track, and analyze all your shortened URLs with SnapShort."></meta>
+
+                <meta property="og:title" content="Dashboard — Manage Your Links | SnapShort" />
+                <meta property="og:description" content="Access your dashboard to manage and analyze your SnapShort links in one place." />
+                <meta property="og:url" content={`${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`} />
+                <meta property="og:type" content="website" />
+                <meta property="og:image" content="/assets/dashboard_og.png" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Dashboard — Manage Your Links | SnapShort" />
+                <meta name="twitter:description" content="Access your dashboard to manage and analyze your SnapShort links in one place." />
+                <meta name="twitter:image" content="/assets/dashboard_og.png" />
+            </Head>
             {
                 loading ? (
                     <Loading large={true} />
