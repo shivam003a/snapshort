@@ -176,7 +176,7 @@ export default function Dashboard() {
 
                 <meta property="og:title" content="Dashboard — Manage Your Links | SnapShort" />
                 <meta property="og:description" content="Access your dashboard to manage and analyze your SnapShort links in one place." />
-                <meta property="og:url" content={`${process.env.NEXT_PUBLIC_BASE_URL}/dashboard`} />
+                <meta property="og:url" content='https://snapshort.vercel.app/dashboard' />
                 <meta property="og:type" content="website" />
                 <meta property="og:image" content="/assets/dashboard_og.png" />
 
