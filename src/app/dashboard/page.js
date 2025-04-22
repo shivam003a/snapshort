@@ -1,3 +1,5 @@
+import Dashboard from "./layout";
+
 export const metadata = {
     title: "Dashboard — Manage Your Links | SnapShort",
     description: "Access your custom dashboard to manage, track, and analyze all your shortened URLs with SnapShort.",
@@ -9,6 +11,7 @@ export const metadata = {
         images: [
             {
                 url: "/assets/dashboard_og.png",
+                alt: "SnapShort Dashboard Preview"
             },
         ],
     },
@@ -20,7 +23,6 @@ export const metadata = {
     },
 };
 
-import Dashboard from "./layout";
 
 export default function DashboardPage() {
     return (

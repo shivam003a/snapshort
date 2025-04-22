@@ -14,7 +14,7 @@ export const metadata = {
 		images: [
 			{
 				url: "/assets/landing_og.png",
-				alt: "SnapShort Dashboard Preview",
+				alt: "SnapShort Landing Preview",
 			},
 		],
 	},
