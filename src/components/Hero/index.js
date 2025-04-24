@@ -53,18 +53,24 @@ export default function Hero() {
             </div>
 
             <div className="flex flex-col items-center justify-center gap-5 px-2 py-14 pb-6">
-                <p className="text-lg text-cs-green font-poppins">{weeklyLinks} new links shortened this week!</p>
+                {
+                    weeklyLinks ? (
+                        <p className="text-lg text-cs-green font-poppins">{weeklyLinks} new links shortened this week!</p>
+                    ) : (
+                        <p className="text-lg text-cs-green font-poppins">Your links, your data, your impact</p>
+                    )
+                }
                 <p className="text-5xl md:text-7xl max-w-2/3 text-center font-bold text-cs-white font-poppins leading-12 md:leading-24">Shrink Your Links Expand Your Reach</p>
                 <div className="flex flex-col items-center justify-center">
                     <p className="text-lg text-cs-gray font-poppins text-center">Shorten and manage your links with ease.</p>
-                    <p className="text-lg text-cs-gray font-poppins text-center">Login to track clicks and view insights.</p>
+                    <p className="text-lg text-cs-gray font-poppins text-center">Signup to track clicks and view detailed insights.</p>
                 </div>
-                <span
+                <button
                     className="bg-cs-green px-6 py-3 rounded-3xl font-poppins mt-4 text-lg cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus: focus:outline-0"
                     onClick={handleNavigation}
                 >
                     Get Started – It’s Free
-                </span>
+                </button>
             </div>
             <AuthDialog open={open} setOpen={setOpen} />
         </div>

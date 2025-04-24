@@ -7,12 +7,14 @@ import Loading from "../Loading"
 import { FiExternalLink } from "react-icons/fi";
 import { FiCopy } from "react-icons/fi";
 import toast from "react-hot-toast"
+import { DeleteAlertDialog } from "../DeleteAlertDialog"
 
 export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
     const [device, setDevice] = useState([])
     const [os, setOS] = useState([])
     const [browser, setBrowser] = useState([])
     const [deleteLoading, setDeleteLoading] = useState(false)
+    const [isDelDialogShown, setIsDelDialogShown] = useState(false)
 
     useEffect(() => {
         setBrowser(getBrowserTypes(singleUrl?.clicks))
@@ -72,7 +74,7 @@ export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
             </Link>
             <Button
                 className="bg-red-400 font-poppins hover:bg-red-500 cursor-pointer"
-                onClick={handleDelete}
+                onClick={() => setIsDelDialogShown(true)}
             >
                 Delete URL
                 {deleteLoading && <Loading />}
@@ -141,6 +143,11 @@ export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
                         </>
                     )
                 }
+                <DeleteAlertDialog
+                    isDelDialogShown={isDelDialogShown}
+                    setIsDelDialogShown={setIsDelDialogShown}
+                    handleDelete={handleDelete}
+                />
             </div>
         </div>
     )

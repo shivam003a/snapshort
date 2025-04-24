@@ -117,24 +117,46 @@ export function getBrowserChartData(clicks) {
     return pieData
 }
 
-export function getTodayVisitData(clicks) {
-    const today = moment().startOf("day");
-    const tomorrow = moment(today).add(1, "day");
+export function getTodayVisitData(clicks, type) {
+    console.log(clicks, type)
+    let startDate, endDate, format;
 
-    const todayClicks = clicks.filter(click =>
-        moment(click.timestamp).isBetween(today, tomorrow)
+    if (type === 'month') {
+        startDate = moment().startOf('month');
+        endDate = moment().endOf('month');
+        format = 'YYYY-MM-DD';
+    } else if (type === 'week') {
+        startDate = moment().startOf('isoWeek');
+        endDate = moment().endOf('isoWeek');
+        format = 'YYYY-MM-DD';
+    } else {
+        startDate = moment().startOf("day");
+        endDate = moment().add(1, "day");
+        format = 'HH:00';
+    }
+
+    const totalClicks = clicks.filter(click =>
+        moment(click.timestamp).isBetween(startDate, endDate, null, '[]')
     );
 
     const grouped = {};
-
-    todayClicks.forEach(click => {
-        const hour = moment(click.timestamp).format("HH:00");
-        grouped[hour] = (grouped[hour] || 0) + 1;
+    totalClicks.forEach(click => {
+        const key = moment(click.timestamp).format(format);
+        grouped[key] = (grouped[key] || 0) + 1;
     });
 
-    const labels = Array.from({ length: 24 }, (_, i) =>
-        String(i).padStart(2, "0") + ":00"
-    );
+    let labels = [];
+
+    if (type === 'day') {
+        labels = Array.from({ length: 24 }, (_, i) =>
+            String(i).padStart(2, "0") + ":00"
+        );
+    } else {
+        const days = endDate.diff(startDate, 'days') + 1;
+        labels = Array.from({ length: days }, (_, i) =>
+            moment(startDate).add(i, 'days').format('YYYY-MM-DD')
+        );
+    }
 
     const data = labels.map(label => grouped[label] || 0);
 
@@ -142,7 +164,7 @@ export function getTodayVisitData(clicks) {
         labels,
         datasets: [
             {
-                label: "Visits Today by Hour",
+                label: `Visits This ${type}`,
                 data,
                 backgroundColor: "#10B981",
             },
