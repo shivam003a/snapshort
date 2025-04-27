@@ -107,7 +107,6 @@ export default function Dashboard() {
                 })
                 const data = await response.json()
                 toast.dismiss(toastId)
-                console.log(data?.data)
 
                 if (response?.ok) {
                     setSingleUrl(data?.data)

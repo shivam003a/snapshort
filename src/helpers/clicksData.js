@@ -118,7 +118,6 @@ export function getBrowserChartData(clicks) {
 }
 
 export function getTodayVisitData(clicks, type) {
-    console.log(clicks, type)
     let startDate, endDate, format;
 
     if (type === 'month') {

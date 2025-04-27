@@ -19,7 +19,7 @@ export async function GET(req) {
     try {
         const user = verifyJWT(token, process.env.JWT_SECRET)
 
-        const allUrlByUserId = await Url.find({ userId: user?.id })
+        const allUrlByUserId = await Url.find({ userId: user?.id }).select(' -clicks.ip')
         if (!allUrlByUserId?.length) {
             return NextResponse.json({
                 success: false,

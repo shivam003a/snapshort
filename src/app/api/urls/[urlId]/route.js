@@ -23,7 +23,7 @@ export async function GET(req, { params }) {
         const urlByUserId = await Url.findOne({
             _id: urlId,
             userId: user?.id
-        })
+        }).select('-clicks.ip')
         if (!urlByUserId) {
             return NextResponse.json({
                 success: false,
