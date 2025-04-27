@@ -209,7 +209,9 @@ export default function Dashboard() {
                                                             onError={handleError}
                                                         >
                                                         </Image>
-                                                        <span className="font-poppins text-xs hidden md:block">{url?.originalUrl?.length > 23 ? url?.originalUrl.slice(0, 23) : url?.originalUrl}</span>
+                                                        <span className="font-poppins text-xs hidden md:block">{
+                                                            (url?.title?.length > 23 ? url?.title.slice(0, 23) : url?.title) || (url?.originalUrl?.length > 23 ? url?.originalUrl.slice(0, 23) : url?.originalUrl)
+                                                        }</span>
                                                     </span>
                                                 ))
                                             }

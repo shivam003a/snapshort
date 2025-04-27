@@ -15,11 +15,11 @@ export async function POST(req) {
         }, { status: 401 })
     }
 
-    
+
     try {
         const user = verifyJWT(token, process.env.JWT_SECRET)
-        
-        const { originalUrl } = await req.json()
+
+        const { originalUrl, title } = await req.json()
         if (!originalUrl) {
             return NextResponse.json({
                 success: false,
@@ -27,14 +27,15 @@ export async function POST(req) {
                 message: "original url is required"
             }, { status: 400 });
         }
-        
+
         const shortId = nanoid(8)
-        
+
         await connectToDB();
         try {
             const shortendedUrl = await Url.create({
                 shortId,
                 originalUrl,
+                title,
                 userId: user?.id,
                 clickCount: 0,
                 clicks: []

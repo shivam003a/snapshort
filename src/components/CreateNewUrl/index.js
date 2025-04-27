@@ -19,6 +19,7 @@ import { z } from 'zod'
 
 export default function CreateNewUrl({ setIsNewAdded }) {
     const [longURL, setLongURL] = useState("")
+    const [title, setTitle] = useState("")
     const [shortURL, setShortURL] = useState("")
     const [loading, setLoading] = useState(false)
     const [errorMsg, setErrorMsg] = useState({})
@@ -39,7 +40,8 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                     "Accept": "application/json"
                 },
                 body: JSON.stringify({
-                    originalUrl: longURL
+                    originalUrl: longURL,
+                    title
                 })
             })
 
@@ -82,6 +84,12 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                     <DialogDescription className="font-poppins text-cs-gray">Easily shorten long URLs, track clicks, and share your custom links with ease</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
+                    <div className="flex flex-col gap-2">
+                        <Label htmlFor="title" className="font-poppins text-cs-blue-dark text-xs">
+                            Title<span className="text-cs-gray">(optional)</span>
+                        </Label>
+                        <Input id="title" value={title} placeholder="Enter Title" className="col-span-3" onChange={(e) => setTitle(e?.target?.value)} />
+                    </div>
                     <div className="flex flex-col gap-2">
                         <Label htmlFor="longURL" className="font-poppins text-cs-blue-dark text-xs">
                             Original URL

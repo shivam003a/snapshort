@@ -9,6 +9,9 @@ const urlSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	title: {
+		type: String
+	},
 	userId: {
 		type: mongoose.Schema.Types.ObjectId,
 		required: true
