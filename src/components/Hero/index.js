@@ -66,7 +66,7 @@ export default function Hero() {
                     <p className="text-lg text-cs-gray font-poppins text-center">Signup to track clicks and view detailed insights.</p>
                 </div>
                 <button
-                    className="bg-cs-green px-6 py-3 rounded-3xl font-poppins mt-4 text-lg cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus: focus:outline-0"
+                    className="bg-cs-green px-6 py-3 border-2 border-cs-green rounded-3xl font-poppins mt-4 text-lg cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-blue-light hover:text-cs-green focus: focus:outline-0"
                     onClick={handleNavigation}
                 >
                     Get Started – It’s Free

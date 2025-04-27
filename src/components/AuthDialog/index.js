@@ -146,7 +146,7 @@ export default function AuthDialog({ open, setOpen }) {
                     </Button>
                     <Button
                         type="submit"
-                        className="bg-cs-green text-cs-blue-dark cursor-pointer rounded-3xl font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-white"
+                        className="bg-cs-green border-2 border-cs-green text-cs-blue-dark cursor-pointer rounded-3xl font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-white"
                         onClick={handleAuth}
                     >
                         {authMethod === "signup" ? "Sign Up" : "Sign In"}

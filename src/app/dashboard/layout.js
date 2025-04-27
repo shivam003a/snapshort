@@ -196,7 +196,7 @@ export default function Dashboard() {
                                             {
                                                 urls && urls?.length && urls.map((url, index) => (
                                                     <span
-                                                        className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer flex gap-2 ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
+                                                        className={`px-2 pl-4 py-4 rounded-l-3xl cursor-pointer flex items-center gap-2 ${selectedUrl === url?._id ? "bg-cs-white text-cs-blue-dark" : "text-cs-white"}`}
                                                         key={index}
                                                         onClick={() => setSelectedUrl(url?._id)}
                                                     >

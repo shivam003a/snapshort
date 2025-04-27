@@ -67,7 +67,7 @@ export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
                 href={`${process.env.NEXT_PUBLIC_BASE_URL}/${singleUrl?.shortId}`}
                 target="_blank"
                 prefetch={false}
-                className="bg-cs-green text-cs-blue-light text-center rounded-md py-1.25 flex items-center justify-center font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-blue-dark hover:text-cs-green"
+                className="bg-cs-green border-2 border-cs-green text-cs-blue-light text-center rounded-md py-1.25 flex items-center justify-center font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-blue-dark hover:text-cs-green"
             >
                 Visit Site&nbsp;
                 <FiExternalLink />

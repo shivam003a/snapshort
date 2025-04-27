@@ -76,7 +76,7 @@ export default function CreateNewUrl({ setIsNewAdded }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-cs-green text-cs-blue-dark font-poppins cursor-pointer hover:border-2 hover:border-cs-green hover:text-cs-green">Create New</Button>
+                <Button className="bg-cs-green border-2 border-cs-green text-cs-blue-dark font-poppins cursor-pointer hover:border-2 hover:border-cs-green hover:text-cs-green">Create New</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -107,7 +107,7 @@ export default function CreateNewUrl({ setIsNewAdded }) {
                     }
                 </div>
                 <DialogFooter>
-                    <Button type="submit" className="font-poppins bg-cs-green text-cs-blue-dark cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-white hover:text-cs-blue-dark" onClick={handleNewUrl}>
+                    <Button type="submit" className="font-poppins border-2 border-cs-green bg-cs-green text-cs-blue-dark cursor-pointer hover:border-2 hover:border-cs-green hover:bg-cs-white hover:text-cs-blue-dark" onClick={handleNewUrl}>
                         Create
                         {loading && <Loading />}
                     </Button>

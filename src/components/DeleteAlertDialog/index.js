@@ -23,7 +23,7 @@ export function DeleteAlertDialog({ isDelDialogShown, setIsDelDialogShown, handl
                 <AlertDialogFooter>
                     <AlertDialogCancel
                         onClick={() => setIsDelDialogShown(false)}
-                        className="bg-cs-green text-cs-blue-dark cursor-pointer rounded-3xl font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-white"
+                        className="bg-cs-green border-2 border-cs-green text-cs-blue-dark cursor-pointer rounded-3xl font-poppins hover:border-2 hover:border-cs-green hover:bg-cs-white"
                     >
                         Cancel
                     </AlertDialogCancel>
