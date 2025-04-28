@@ -175,12 +175,10 @@ export default function Dashboard() {
                     <div className="bg-linear-to-t from-cs-blue-light to-cs-blue-dark overflow-hidden">
                         <div className="w-full h-screen max-w-[1200px] mx-auto pb-12">
                             <div className="h-16 px-2 py-4 flex justify-between">
-                                <div>
-                                    <Link href="/">
-                                        <span className="text-2xl text-cs-green font-semibold font-poppins">snap</span>
-                                        <span className="text-2xl text-cs-white font-light font-poppins">/short</span>
-                                    </Link>
-                                </div>
+                                <Link href="/">
+                                    <span className="text-2xl text-cs-green font-semibold font-poppins">snap</span>
+                                    <span className="text-2xl text-cs-white font-light font-poppins">/short</span>
+                                </Link>
                                 <div className="flex gap-1">
                                     <CreateNewUrl setIsNewAdded={setIsNewAdded} />
                                     <Button className="font-poppins bg-red-400 hover:bg-red-500 cursor-pointer" onClick={handleLogout}>Logout {logoutLoading && <Loading />}</Button>

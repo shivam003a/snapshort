@@ -8,6 +8,7 @@ import { FiExternalLink } from "react-icons/fi";
 import { FiCopy } from "react-icons/fi";
 import toast from "react-hot-toast"
 import { DeleteAlertDialog } from "../DeleteAlertDialog"
+import GenerateQRCode from "@/helpers/qrCodeGen"
 
 export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
     const [device, setDevice] = useState([])
@@ -85,6 +86,14 @@ export default function URLInfo({ singleUrl, loading1, setIsNewAdded }) {
                         <Loading />
                     ) : (
                         <>
+
+                            <div>
+                                <p className='font-poppins text-black text-xs mb-1'>qrCode</p>
+                                <GenerateQRCode
+                                    shortId={singleUrl?.shortId}
+                                    title={singleUrl?.title}
+                                />
+                            </div>
                             <div>
                                 <p className='font-poppins text-black text-xs'>shortURL</p>
                                 <p className='font-poppins text-cs-gray text-sm flex gap-2 items-center'>
