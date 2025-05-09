@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Loading from '@/app/loading'
 import { Toaster } from 'react-hot-toast';
 import { Providers } from "@/redux/providers";
+import { Analytics } from "@vercel/analytics/react"
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
           <Providers>
             {children}
           </Providers>
+          <Analytics />
         </Suspense>
       </body>
     </html>
